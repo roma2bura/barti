@@ -1,13 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import SearchBar from "./Components/searchBar"
-import BasicTable from './Components/table';
-import FakeJson from "./data.json"
+import React, { useState } from "react";
+import SearchBar from "./Components/searchBar";
+import BasicTable from "./Components/table";
+import FakeJson from "./data.json";
+import Container from '@mui/material/Container';
+
 
 function App() {
   const [data] = useState(FakeJson);
-  const [picker, setPicker] = useState([])
+  const [picker, setPicker] = useState([]);
 
-//API CALL
+  //API CALL
 
   // useEffect(() => {
   //   const url = `https://6195803474c1bd00176c6d9a.mockapi.io/api/v1/patient`;
@@ -25,18 +27,22 @@ function App() {
   //   fetchData();
   // }, [data]);
 
-  const pickedElement = (value) => {
-    const findObject = data.filter(el => el.fullName === value)
-    setPicker(findObject)
-  }
+  const pickedElement = () => {
+    const findObject = data.filter(
+      (el) => el.fullName === localStorage.getItem("searchQuery")
+    );
+    setPicker(findObject);
+  };
 
   return (
-    <div className="App">
-      <SearchBar placeholder="Search" data={data} pickedElement={pickedElement} />
-      <BasicTable picker={picker} />
-    </div>
-
-      
+      <Container> 
+        <SearchBar
+          placeholder="Search"
+          data={data}
+          pickedElement={pickedElement}
+        />
+        <BasicTable picker={picker} />
+      </Container>
   );
 }
 
