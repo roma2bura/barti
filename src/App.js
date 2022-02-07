@@ -1,15 +1,40 @@
-
-import {  BrowserRouter, Switch, Route } from "react-router-dom";
-import Home from "./home";
+import React, {useEffect, useState} from 'react';
+import SearchBar from "./Components/searchBar"
+import BasicTable from './Components/table';
+import FakeJson from "./data.json"
 
 function App() {
+  const [data] = useState(FakeJson);
+  const [picker, setPicker] = useState([])
+
+//API CALL
+
+  // useEffect(() => {
+  //   const url = `https://6195803474c1bd00176c6d9a.mockapi.io/api/v1/patient`;
+
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(url);
+  //       const json = await response.json();
+  //       setData(json);
+  //     } catch (error) {
+  //       console.log("error", error);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [data]);
+
+  const pickedElement = (value) => {
+    const findObject = data.filter(el => el.fullName === value)
+    setPicker(findObject)
+  }
 
   return (
-    <BrowserRouter>
-          <Switch>
-                <Route path="/:search" component={Home} />
-          </Switch>
-      </BrowserRouter>
+    <div className="App">
+      <SearchBar placeholder="Search" data={data} pickedElement={pickedElement} />
+      <BasicTable picker={picker} />
+    </div>
 
       
   );
